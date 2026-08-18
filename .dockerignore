@@ -1,0 +1,13 @@
+.venv/                  # Your local virtual environment
+__pycache__/            # Python cache
+.git/                   # Git repository metadata
+.env                    # Secrets
+.vscode/                # VS Code settings
+.idea/                  # IDE settings
+.ipynb_checkpoints/     # Jupyter checkpoints
+mlruns/                 # Local MLflow runs
+mlartifacts/            # Local MLflow artifacts
+*.log                   # Logs
+*.tmp                   # Temporary files
+.pytest_cache/          # Test cache
+.coverage               # Coverage files
