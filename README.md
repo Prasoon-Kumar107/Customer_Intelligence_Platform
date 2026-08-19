@@ -744,48 +744,8 @@ This would reduce the risk of training/inference transformations becoming incons
 
 ---
 
-## 2. Reconcile the Model Configuration
 
-The notebook's final optimized parameters and the values stored in `src/config.py` are not identical.
-
-The notebook's final recorded Optuna result is approximately:
-
-```text
-n_estimators      = 146
-learning_rate     ≈ 0.01169
-max_depth         = 3
-min_child_weight  = 9
-gamma             ≈ 4.681
-subsample         ≈ 0.934
-colsample_bytree  ≈ 0.807
-scale_pos_weight  ≈ 9.998
-```
-
-while `src/config.py` contains a different parameter set.
-
-This should be made reproducible by saving the winning experiment configuration as the single source of truth.
-
----
-
-## 3. Reconcile the Decision Threshold
-
-The notebook records a threshold around:
-
-```text
-0.76
-```
-
-while the application configuration uses:
-
-```text
-0.72
-```
-
-The final deployed model, threshold, and reported metrics should always correspond to the same experiment/version.
-
----
-
-## 4. Add Automated Tests
+## 2. Add Automated Tests
 
 The repository currently does not contain a dedicated test suite.
 
@@ -802,7 +762,7 @@ tests/
 
 ---
 
-## 5. Add CI/CD
+## 3. Add CI/CD
 
 A GitHub Actions workflow could automatically:
 
@@ -822,7 +782,7 @@ Deploy
 
 ---
 
-## 6. Improve Model Artifact Versioning
+## 4. Improve Model Artifact Versioning
 
 The serialized `model.pkl` is environment/version sensitive.
 
@@ -841,7 +801,7 @@ MLflow can serve as the central registry for this metadata.
 
 ---
 
-## 7. Improve API Error Handling
+## 5. Improve API Error Handling
 
 The prediction endpoint currently returns a generic:
 
@@ -855,7 +815,7 @@ A production API should log the underlying exception server-side while returning
 
 ---
 
-## 8. Validate Zero-Charge Customers
+## 6. Validate Zero-Charge Customers
 
 The dashboard permits `TotalCharges = 0`, while the API schema currently requires:
 
