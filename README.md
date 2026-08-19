@@ -253,6 +253,8 @@ The engineered representation produced the strongest reported ROC-AUC and F1 sco
 For a churn problem, the relatively high recall is particularly relevant when the objective is to identify a large proportion of customers who may leave.
 
 > **Metric reproducibility note:** the notebook experiments and the current `src/config.py` do not contain exactly the same optimized hyperparameters/threshold. The metrics above should therefore be treated as the results recorded by the notebook rather than automatically assumed to be the exact performance of the currently serialized `models/model.pkl`.
+>
+> Before using these figures as final production metrics, the model artifact, optimized hyperparameters, decision threshold, and reported evaluation results should be reconciled to the same experiment/version.
 
 ---
 
@@ -389,6 +391,15 @@ Customer_Intelligence_Platform/
 │   ├── feature_engineering.ipynb
 │   └── model_training.ipynb
 │
+├── Output
+│   ├── backend_explain.png
+│   ├── backend_main.png
+│   ├── backend_predict.png
+│   ├── frontend_result.png
+│   ├── frontend_main.png
+│   ├── Summary_plot.png
+│   └── waterfall_plot.png
+│
 ├── src/
 │   ├── config.py
 │   ├── data_preprocessing.py
@@ -423,8 +434,8 @@ Customer_Intelligence_Platform/
 | Dashboard | Streamlit |
 | MLOps | MLflow |
 | Serialization | Pickle |
-| Deployment | Docker |
-| Hosting Target | Render |
+| Deployment | Docker + Render |
+| Hosting | Render (Deployed) |
 
 ---
 
@@ -557,6 +568,46 @@ For a cloud deployment, the Streamlit service should communicate with the deploy
 
 ---
 
+# 🚀 Live Deployment
+
+The **Customer Intelligence Platform is containerized with Docker and deployed on Render** using separate services for the Streamlit dashboard and FastAPI backend.
+
+### Deployment Architecture
+
+```text
+                         Render
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+      Streamlit Service          FastAPI Service
+              │                         │
+              └──── API Requests ───────┘
+```
+
+### Deployment Stack
+
+- 🐳 Docker
+- ⚡ FastAPI
+- 🖥️ Streamlit
+- ☁️ Render
+- 🔐 Environment Variables
+- 🔗 Separate API and Dashboard Services
+
+### Service Configuration
+
+The Streamlit dashboard communicates with the deployed FastAPI backend through:
+
+```text
+API_URL
+EXPLAIN_API_URL
+```
+
+These environment variables should point to the deployed FastAPI service endpoints rather than the local development address.
+
+> **Deployment Status:** Live on Render
+
+---
+
 # 📈 MLOps with MLflow
 
 The training code integrates MLflow for:
@@ -651,6 +702,8 @@ SHAP is used to answer:
 ### 🚀 Deployment
 
 The trained model is exposed through FastAPI and consumed by a Streamlit dashboard.
+
+The application is **Dockerized and deployed on Render**, with the dashboard and API running as separate services.
 
 ### ⚙️ MLOps
 
@@ -901,4 +954,4 @@ Feedback, suggestions, and improvements are welcome.
 
 ## 📌 Project Positioning
 
-> **An end-to-end, explainable customer churn intelligence system that combines predictive modeling, business-oriented risk segmentation, API deployment, interactive visualization, and MLOps practices.**
+> **An end-to-end, explainable customer churn intelligence system that combines predictive modeling, business-oriented risk segmentation, Dockerized API deployment on Render, interactive visualization, and MLOps practices.**
